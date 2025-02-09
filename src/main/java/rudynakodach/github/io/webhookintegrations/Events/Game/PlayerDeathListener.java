@@ -20,7 +20,6 @@ package rudynakodach.github.io.webhookintegrations.Events.Game;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -44,20 +43,20 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
-        if(WebhookActions.isPlayerVanished(plugin, event.getPlayer())) {
+        if(WebhookActions.isPlayerVanished(plugin, event.getEntity())) {
             return;
         }
 
-        if (TimeoutManager.get().isTimedOut(event.getPlayer()) &&
+        if (TimeoutManager.get().isTimedOut(event.getEntity()) &&
                 plugin.getConfig().getBoolean("ignore-events-during-timeout", false)) {
             return;
         }
 
         String playerName = event.getEntity().getName();
         if(plugin.getConfig().getBoolean("preventUsernameMarkdownFormatting")) {
-            playerName = WebhookActions.escapePlayerName(event.getPlayer());
+            playerName = WebhookActions.escapePlayerName(event.getEntity());
         }
-        String deathMessage = PlainTextComponentSerializer.plainText().serialize(event.deathMessage() == null ? Component.empty() : Objects.requireNonNull(event.deathMessage()));
+        String deathMessage = event.getDeathMessage();
 
         String newLevel = String.valueOf(event.getNewLevel());
         String newExp = String.valueOf(event.getNewExp());
@@ -73,7 +72,7 @@ public class PlayerDeathListener implements Listener {
             }
 
             if(!MessageConfiguration.get().canAnnounce(MessageType.PLAYER_DEATH_KILLED)) {return;}
-            if(!MessageConfiguration.get().hasPlayerPermission(event.getPlayer().getKiller(), MessageType.PLAYER_DEATH_KILLED)) {return;}
+            if(!MessageConfiguration.get().hasPlayerPermission(event.getEntity().getKiller(), MessageType.PLAYER_DEATH_KILLED)) {return;}
 
             String killerName = event.getEntity().getKiller().getName();
             if(plugin.getConfig().getBoolean("preventUsernameMarkdownFormatting")) {
@@ -103,14 +102,14 @@ public class PlayerDeathListener implements Listener {
                 .replace("$oldExp$",oldExp);
 
             if(plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                json = PlaceholderAPI.setRelationalPlaceholders(event.getPlayer(), event.getEntity().getKiller(), json);
+                json = PlaceholderAPI.setRelationalPlaceholders(event.getEntity(), event.getEntity().getKiller(), json);
             }
 
             new WebhookActions(plugin, MessageConfiguration.get().getTarget(MessageType.PLAYER_DEATH_KILLED)).SendAsync(json);
         }
         else {
             if(!MessageConfiguration.get().canAnnounce(MessageType.PLAYER_DEATH_NPC)) {return;}
-            if(!MessageConfiguration.get().hasPlayerPermission(event.getPlayer(), MessageType.PLAYER_DEATH_NPC)) {return;}
+            if(!MessageConfiguration.get().hasPlayerPermission(event.getEntity(), MessageType.PLAYER_DEATH_NPC)) {return;}
             String json = MessageConfiguration.get().getMessage(MessageType.PLAYER_DEATH_NPC);
 
             if(json == null) {
@@ -131,7 +130,7 @@ public class PlayerDeathListener implements Listener {
                 .replace("$oldExp$",oldExp);
 
             if(plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                json = PlaceholderAPI.setPlaceholders(event.getPlayer(), json);
+                json = PlaceholderAPI.setPlaceholders(event.getEntity(), json);
             }
 
             if(plugin.getConfig().getBoolean("remove-color-coding", false)) {

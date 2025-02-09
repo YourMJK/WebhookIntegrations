@@ -420,7 +420,7 @@ public class WIActions implements CommandExecutor, TabCompleter {
         String backupName = args[2];
 
         if(!ConfigBackupManager.get().backupExists(backupName)) {
-            commandSender.sendMessage(Component.text("Folder doesn't exist.").color(NamedTextColor.RED));
+            commandSender.sendMessage(ChatColor.RED + "Folder doesn't exist.");
             return true;
         }
 

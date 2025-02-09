@@ -19,7 +19,6 @@
 package rudynakodach.github.io.webhookintegrations.Events.Game;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -69,7 +68,7 @@ public class PlayerKickListener implements Listener {
         if(plugin.getConfig().getBoolean("preventUsernameMarkdownFormatting")) {
             playerName = WebhookActions.escapePlayerName(event.getPlayer());
         }
-        String reason = PlainTextComponentSerializer.plainText().serialize(event.reason());
+        String reason = event.getReason();
 
         if (reason.isEmpty()) {
             reason = "Unspecified reason.";

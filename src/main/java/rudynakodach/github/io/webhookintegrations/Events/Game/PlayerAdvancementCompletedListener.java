@@ -19,7 +19,6 @@
 package rudynakodach.github.io.webhookintegrations.Events.Game;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,7 +44,7 @@ public class PlayerAdvancementCompletedListener implements Listener {
     @EventHandler
     public void onAdvancementMade(PlayerAdvancementDoneEvent event) {
         if (!MessageConfiguration.get().canAnnounce(MessageType.PLAYER_ADVANCEMENT))    { return; }
-        if (event.getAdvancement().getDisplay() == null)                                { return; }
+        //if (event.getAdvancement().getDisplay() == null)                                { return; }
         if (WebhookActions.isPlayerVanished(plugin, event.getPlayer()))                 { return; }
 
         if(!MessageConfiguration.get().hasPlayerPermission(event.getPlayer(), MessageType.PLAYER_ADVANCEMENT)) {
@@ -57,8 +56,10 @@ public class PlayerAdvancementCompletedListener implements Listener {
             return;
         }
 
-        String advancement = PlainTextComponentSerializer.plainText().serialize(event.getAdvancement().getDisplay().title());
-        String advancementDescription = PlainTextComponentSerializer.plainText().serialize(event.getAdvancement().getDisplay().description());
+        String advancement = "";
+        String advancementDescription = "";
+        //String advancement = PlainTextComponentSerializer.plainText().serialize(event.getAdvancement().getDisplay().title());
+        //String advancementDescription = PlainTextComponentSerializer.plainText().serialize(event.getAdvancement().getDisplay().description());
 
         String json = MessageConfiguration.get().getMessage(MessageType.PLAYER_ADVANCEMENT);
 

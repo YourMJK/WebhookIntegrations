@@ -22,6 +22,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,21 +32,28 @@ import rudynakodach.github.io.webhookintegrations.Utils.Timeout.TimeoutManager;
 import rudynakodach.github.io.webhookintegrations.WebhookActions;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlayerQuitListener implements Listener {
 
     JavaPlugin plugin;
 
+    private Set<UUID> kickedPlayers = new HashSet<>();
+
     public PlayerQuitListener(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
+    public void onPlayerKickEvent(PlayerKickEvent event) {
+        kickedPlayers.add(event.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        boolean wasKicked = kickedPlayers.remove(event.getPlayer().getUniqueId());
+
         if (!MessageConfiguration.get().canAnnounce(MessageType.PLAYER_QUIT))   { return; }
         if (WebhookActions.isPlayerVanished(plugin, event.getPlayer()))         { return; }
 
@@ -56,7 +64,7 @@ public class PlayerQuitListener implements Listener {
             return;
         }
 
-        if(!plugin.getConfig().getBoolean("send-quit-when-kicked", false) && event.getReason() == PlayerQuitEvent.QuitReason.KICKED) {
+        if(!plugin.getConfig().getBoolean("send-quit-when-kicked", false) && wasKicked) {
             return;
         }
 

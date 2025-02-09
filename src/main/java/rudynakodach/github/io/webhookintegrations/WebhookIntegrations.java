@@ -18,7 +18,6 @@
 
 package rudynakodach.github.io.webhookintegrations;
 
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -205,9 +204,10 @@ public final class WebhookIntegrations extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if(Bukkit.isStopping()) {
+        /*if(Bukkit.isStopping()) {
             sendStopMessage();
-        }
+        }*/
+        sendStopMessage();
 
         getLogger().log(Level.INFO, "this is my final message");
         getLogger().log(Level.INFO, "goodb ye");
@@ -220,7 +220,7 @@ public final class WebhookIntegrations extends JavaPlugin {
 
         String serverIp = getServer().getIp();
         int slots = getServer().getMaxPlayers();
-        String serverMotd = PlainTextComponentSerializer.plainText().serialize(getServer().motd());
+        String serverMotd = getServer().getMotd();
         String serverName = getServer().getName();
         String serverVersion = getServer().getVersion();
         Boolean isOnlineMode = getServer().getOnlineMode();

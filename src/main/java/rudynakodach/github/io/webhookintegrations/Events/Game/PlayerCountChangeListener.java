@@ -1,6 +1,5 @@
 package rudynakodach.github.io.webhookintegrations.Events.Game;
 
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -58,7 +57,7 @@ public class PlayerCountChangeListener implements Listener {
         int playerCount = WebhookActions.getPlayerCount(plugin);
         int playerCountChange = playerCount - lastPlayerCountSent;
 
-        String serverMotd = PlainTextComponentSerializer.plainText().serialize(plugin.getServer().motd());
+        String serverMotd = plugin.getServer().getMotd();
         json = json.replace("$motd$", serverMotd).replace("$playersOnline$", String.valueOf(playerCount))
                 .replace("$oldPlayerCount$", String.valueOf(lastPlayerCountSent))
                 .replace("$playerCountChange$", playerCountChange > 0 ? "+" + playerCountChange : String.valueOf(playerCountChange));

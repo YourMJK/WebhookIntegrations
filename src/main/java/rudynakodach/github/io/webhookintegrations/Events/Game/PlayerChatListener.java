@@ -18,9 +18,8 @@
 
 package rudynakodach.github.io.webhookintegrations.Events.Game;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,7 +42,7 @@ public class PlayerChatListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerChatEvent(AsyncChatEvent event) {
+    public void onPlayerChatEvent(AsyncPlayerChatEvent event) {
         if(event.isCancelled()) {
             return;
         }
@@ -67,7 +66,7 @@ public class PlayerChatListener implements Listener {
 
         boolean allowPlaceholdersInMessage = MessageConfiguration.get().getYamlConfig().getBoolean("onPlayerChat.allow-placeholders-in-message");
 
-        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        String message = event.getMessage();
         String playerName = event.getPlayer().getName();
         if(plugin.getConfig().getBoolean("preventUsernameMarkdownFormatting")) {
             playerName = WebhookActions.escapePlayerName(event.getPlayer());

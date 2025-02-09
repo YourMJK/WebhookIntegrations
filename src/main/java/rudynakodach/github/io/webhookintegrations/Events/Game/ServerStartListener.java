@@ -18,7 +18,6 @@
 
 package rudynakodach.github.io.webhookintegrations.Events.Game;
 
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
@@ -49,7 +48,7 @@ public class ServerStartListener implements Listener {
 
         String serverIp = plugin.getServer().getIp();
         int slots = plugin.getServer().getMaxPlayers();
-        String serverMotd = PlainTextComponentSerializer.plainText().serialize(plugin.getServer().motd());
+        String serverMotd = plugin.getServer().getMotd();
         String serverName = plugin.getServer().getName();
         String serverVersion = plugin.getServer().getVersion();
         Boolean isOnlineMode = plugin.getServer().getOnlineMode();

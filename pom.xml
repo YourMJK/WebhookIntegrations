@@ -6,7 +6,7 @@
 
     <groupId>rudynakodach.github.io</groupId>
     <artifactId>WebhookIntegrations</artifactId>
-    <version>5.3</version>
+    <version>5.3-spigot-v2</version>
     <packaging>jar</packaging>
 
     <name>WebhookIntegrations</name>
@@ -60,9 +60,14 @@
     </build>
 
     <repositories>
+<!--        <repository>-->
+<!--            <id>papermc-repo</id>-->
+<!--            <url>https://repo.papermc.io/repository/maven-public/</url>-->
+<!--        </repository>-->
+
         <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
         <repository>
@@ -77,13 +82,19 @@
     </repositories>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>io.papermc.paper</groupId>-->
+<!--            <artifactId>paper-api</artifactId>-->
+<!--            <version>1.17.1-R0.1-SNAPSHOT</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.jetbrains</groupId>
