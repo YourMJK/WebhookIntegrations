@@ -50,7 +50,6 @@ public final class WebhookIntegrations extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        getLogger().log(Level.INFO, "Hello, World!");
 
         if(!new File(getDataFolder(), "messages.yml").exists()) {
             this.saveResource("messages.yml", false);
@@ -71,7 +70,7 @@ public final class WebhookIntegrations extends JavaPlugin {
             }
         }
 
-        getLogger().log(Level.INFO,"Initializing language...");
+        //getLogger().log(Level.INFO,"Initializing language...");
         File langFile = new File(this.getDataFolder(),"lang.yml");
 
         Locale locale = Locale.getDefault();
@@ -91,7 +90,7 @@ public final class WebhookIntegrations extends JavaPlugin {
             if(!languageConfig.contains(selectedLanguage)) {
                 selectedLanguage = "en_US";
             }
-            getLogger().log(Level.INFO,"Hooked to " + selectedLanguage);
+            getLogger().log(Level.INFO,"Using language " + selectedLanguage);
         }
 
         LanguageConfiguration language = new LanguageConfiguration(this, selectedLanguage, languageConfig);
@@ -143,7 +142,7 @@ public final class WebhookIntegrations extends JavaPlugin {
             }
         }
 
-        getLogger().log(Level.INFO, language.getLocalizedString("onStart.registeringEvents"));
+        //getLogger().log(Level.INFO, language.getLocalizedString("onStart.registeringEvents"));
 
         // Events
         ServerStartListener serverStart = new ServerStartListener(this);
@@ -173,7 +172,7 @@ public final class WebhookIntegrations extends JavaPlugin {
         PlayerCountChangeListener playerCountChangeListener = new PlayerCountChangeListener(this);
         getServer().getPluginManager().registerEvents(playerCountChangeListener,this);
 
-        getLogger().log(Level.INFO, language.getLocalizedString("onStart.eventRegisterFinish"));
+        //getLogger().log(Level.INFO, language.getLocalizedString("onStart.eventRegisterFinish"));
 
         // Commands
         SetWebhookURL setWebhookUrlCommand = new SetWebhookURL(this);
@@ -185,7 +184,7 @@ public final class WebhookIntegrations extends JavaPlugin {
         WIActions resetConfig = new WIActions(this);
         Objects.requireNonNull(getCommand("wi")).setExecutor(resetConfig);
 
-        getLogger().log(Level.INFO, language.getLocalizedString("onStart.commandRegisterFinish"));
+        //getLogger().log(Level.INFO, language.getLocalizedString("onStart.commandRegisterFinish"));
 
         // Metrics
         Metrics metrics = new Metrics(this, 18509);
@@ -208,9 +207,6 @@ public final class WebhookIntegrations extends JavaPlugin {
             sendStopMessage();
         }*/
         sendStopMessage();
-
-        getLogger().log(Level.INFO, "this is my final message");
-        getLogger().log(Level.INFO, "goodb ye");
     }
 
     private void sendStopMessage() {
