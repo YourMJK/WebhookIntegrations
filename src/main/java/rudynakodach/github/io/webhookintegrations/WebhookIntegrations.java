@@ -132,7 +132,7 @@ public final class WebhookIntegrations extends JavaPlugin {
             }
         }
 
-        String webhookUrl = getConfig().getString("webhookUrl");
+        String webhookUrl = getConfig().getString("webhooks.main");
 
         if (webhookUrl == null) {
             getLogger().log(Level.WARNING, language.getLocalizedString("onStart.webhookEmpty"));
